@@ -1,9 +1,25 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState, type FormEvent } from "react";
 import { SiteNav } from "@/components/SiteNav";
+import { getReports, updateReport, deleteReport, type Report } from "@/lib/reports";
 
 const STAFF_PASSWORD = "onecity2025";
 const STORAGE_KEY = "onecity_staff_auth";
+
+const STAFF_TEAM = [
+  {
+    name: "In God",
+    role: "Founder",
+    initials: "IG",
+    bio: "Creator and lead of One City RP. Sets the vision and oversees the entire project.",
+  },
+  {
+    name: "Mr Breeder",
+    role: "Assistant Project Curator",
+    initials: "MB",
+    bio: "Supports daily operations, community management, and project direction.",
+  },
+];
 
 export const Route = createFileRoute("/staff")({
   head: () => ({
@@ -48,7 +64,6 @@ function StaffPage() {
     <div className="relative min-h-screen overflow-hidden">
       <SiteNav />
       <div className="absolute left-1/2 top-1/3 h-[500px] w-[500px] -translate-x-1/2 rounded-full bg-accent/20 blur-[120px]" />
-      <div className="absolute inset-0 bg-grid opacity-20" />
 
       <main className="relative z-10 container mx-auto px-6 pt-32 pb-20">
         {!authed ? (
@@ -80,9 +95,7 @@ function StaffPage() {
                 placeholder="••••••••"
                 className="mt-3 w-full rounded-md border border-border bg-input/50 px-4 py-3 font-mono text-foreground outline-none transition-all focus:border-primary focus:shadow-[var(--shadow-neon)]"
               />
-              {error && (
-                <p className="mt-3 text-sm font-medium text-destructive">{error}</p>
-              )}
+              {error && <p className="mt-3 text-sm font-medium text-destructive">{error}</p>}
               <button
                 type="submit"
                 className="mt-6 w-full rounded-md bg-primary py-3 font-bold uppercase tracking-wider text-primary-foreground shadow-[var(--shadow-neon)] transition-transform hover:scale-[1.02]"
@@ -98,72 +111,205 @@ function StaffPage() {
             </form>
           </div>
         ) : (
-          <div className="mx-auto max-w-4xl">
-            <div className="flex flex-wrap items-end justify-between gap-4">
-              <div>
-                <span className="text-xs font-bold uppercase tracking-[0.3em] text-primary">
-                  Authorized
-                </span>
-                <h1 className="mt-2 font-display text-4xl font-black uppercase md:text-5xl">
-                  Staff <span className="text-gradient-neon">Dashboard</span>
-                </h1>
-                <p className="mt-2 text-sm text-muted-foreground">
-                  Welcome back. Manage the city from here.
-                </p>
-              </div>
-              <button
-                onClick={logout}
-                className="rounded-md border border-destructive/60 px-5 py-2 text-xs font-bold uppercase tracking-wider text-destructive transition-all hover:bg-destructive hover:text-destructive-foreground"
-              >
-                Lock Panel
-              </button>
-            </div>
-
-            <div className="mt-10 grid gap-4 md:grid-cols-3">
-              {[
-                { l: "Online Players", v: "612" },
-                { l: "Active Reports", v: "3" },
-                { l: "Server Uptime", v: "99.9%" },
-              ].map((s) => (
-                <div key={s.l} className="glass rounded-xl p-6">
-                  <div className="text-xs uppercase tracking-widest text-muted-foreground">
-                    {s.l}
-                  </div>
-                  <div className="mt-2 text-gradient-neon font-display text-3xl font-black">
-                    {s.v}
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div className="mt-6 grid gap-4 md:grid-cols-2">
-              {[
-                { t: "Player Management", d: "View, mute, kick or ban players in real time." },
-                { t: "Reports & Tickets", d: "Review open reports and resolve player disputes." },
-                { t: "Server Logs", d: "Inspect chat, transactions and admin actions." },
-                { t: "Announcements", d: "Push global broadcasts to everyone in the city." },
-              ].map((c) => (
-                <div
-                  key={c.t}
-                  className="glass rounded-xl p-6 transition-all hover:border-primary/60 hover:shadow-[var(--shadow-neon)]"
-                >
-                  <h3 className="font-display text-lg font-bold uppercase tracking-wide">
-                    {c.t}
-                  </h3>
-                  <p className="mt-2 text-sm text-muted-foreground">{c.d}</p>
-                  <button className="mt-4 text-xs font-bold uppercase tracking-widest text-primary hover:text-glow">
-                    Open →
-                  </button>
-                </div>
-              ))}
-            </div>
-
-            <p className="mt-10 text-center text-xs text-muted-foreground">
-              Note: This is a demo panel. Hook real backend logic before going live.
-            </p>
-          </div>
+          <AuthedDashboard onLogout={logout} />
         )}
       </main>
+    </div>
+  );
+}
+
+function AuthedDashboard({ onLogout }: { onLogout: () => void }) {
+  const [reports, setReports] = useState<Report[]>([]);
+  const [tab, setTab] = useState<"reports" | "team">("reports");
+
+  const refresh = () => setReports(getReports());
+  useEffect(refresh, []);
+
+  const handleReply = (id: string, reply: string) => {
+    updateReport(id, { reply });
+    refresh();
+  };
+  const handleResolve = (id: string) => {
+    updateReport(id, { status: "resolved" });
+    refresh();
+  };
+  const handleReopen = (id: string) => {
+    updateReport(id, { status: "open" });
+    refresh();
+  };
+  const handleDelete = (id: string) => {
+    if (confirm("Delete this report?")) {
+      deleteReport(id);
+      refresh();
+    }
+  };
+
+  const open = reports.filter((r) => r.status === "open").length;
+
+  return (
+    <div className="mx-auto max-w-5xl">
+      <div className="flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <span className="text-xs font-bold uppercase tracking-[0.3em] text-primary">
+            Authorized
+          </span>
+          <h1 className="mt-2 font-display text-4xl font-black uppercase md:text-5xl">
+            Staff <span className="text-gradient-neon">Dashboard</span>
+          </h1>
+        </div>
+        <button
+          onClick={onLogout}
+          className="rounded-md border border-destructive/60 px-5 py-2 text-xs font-bold uppercase tracking-wider text-destructive transition-all hover:bg-destructive hover:text-destructive-foreground"
+        >
+          Lock Panel
+        </button>
+      </div>
+
+      <div className="mt-8 flex gap-2 border-b border-border">
+        {(["reports", "team"] as const).map((t) => (
+          <button
+            key={t}
+            onClick={() => setTab(t)}
+            className={`px-5 py-3 text-xs font-bold uppercase tracking-widest transition-all ${
+              tab === t
+                ? "border-b-2 border-primary text-primary"
+                : "text-muted-foreground hover:text-foreground"
+            }`}
+          >
+            {t === "reports" ? `Reports (${open})` : "Admin Team"}
+          </button>
+        ))}
+      </div>
+
+      {tab === "reports" ? (
+        <div className="mt-6 space-y-4">
+          {reports.length === 0 ? (
+            <div className="glass rounded-xl p-10 text-center text-sm text-muted-foreground">
+              No reports yet. Players can submit one at{" "}
+              <Link to="/report" className="text-primary hover:underline">
+                /report
+              </Link>
+              .
+            </div>
+          ) : (
+            reports.map((r) => (
+              <ReportCard
+                key={r.id}
+                report={r}
+                onReply={handleReply}
+                onResolve={handleResolve}
+                onReopen={handleReopen}
+                onDelete={handleDelete}
+              />
+            ))
+          )}
+        </div>
+      ) : (
+        <div className="mt-6 grid gap-4 md:grid-cols-2">
+          {STAFF_TEAM.map((m) => (
+            <div key={m.name} className="glass rounded-xl p-6">
+              <div className="flex items-center gap-4">
+                <div className="flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-primary to-accent font-display text-lg font-black text-primary-foreground shadow-[var(--shadow-neon)]">
+                  {m.initials}
+                </div>
+                <div>
+                  <h3 className="font-display text-lg font-bold uppercase">{m.name}</h3>
+                  <p className="text-xs uppercase tracking-widest text-accent">{m.role}</p>
+                </div>
+              </div>
+              <p className="mt-4 text-sm text-muted-foreground">{m.bio}</p>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function ReportCard({
+  report,
+  onReply,
+  onResolve,
+  onReopen,
+  onDelete,
+}: {
+  report: Report;
+  onReply: (id: string, reply: string) => void;
+  onResolve: (id: string) => void;
+  onReopen: (id: string) => void;
+  onDelete: (id: string) => void;
+}) {
+  const [reply, setReply] = useState(report.reply || "");
+
+  return (
+    <div className="glass rounded-xl p-6">
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <div className="flex items-center gap-3">
+            <h3 className="font-display text-base font-bold uppercase">{report.name}</h3>
+            <span
+              className={`rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider ${
+                report.status === "open"
+                  ? "bg-destructive/20 text-destructive"
+                  : "bg-primary/20 text-primary"
+              }`}
+            >
+              {report.status}
+            </span>
+            <span className="rounded-full border border-border px-2 py-0.5 text-[10px] uppercase tracking-wider text-muted-foreground">
+              {report.category}
+            </span>
+          </div>
+          <p className="mt-1 text-xs text-muted-foreground">
+            {report.contact && <>Contact: {report.contact} · </>}
+            {new Date(report.createdAt).toLocaleString()}
+          </p>
+        </div>
+      </div>
+
+      <p className="mt-4 whitespace-pre-wrap text-sm text-foreground/90">{report.message}</p>
+
+      <div className="mt-4">
+        <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground">
+          Staff Reply
+        </label>
+        <textarea
+          value={reply}
+          onChange={(e) => setReply(e.target.value)}
+          rows={2}
+          className="mt-2 w-full rounded-md border border-border bg-input/50 px-3 py-2 text-sm outline-none transition-all focus:border-primary"
+          placeholder="Write a reply to this report..."
+        />
+        <div className="mt-3 flex flex-wrap gap-2">
+          <button
+            onClick={() => onReply(report.id, reply)}
+            className="rounded-md bg-primary px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-primary-foreground hover:scale-[1.02]"
+          >
+            Save Reply
+          </button>
+          {report.status === "open" ? (
+            <button
+              onClick={() => onResolve(report.id)}
+              className="rounded-md border border-primary px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-primary hover:bg-primary hover:text-primary-foreground"
+            >
+              Mark Resolved
+            </button>
+          ) : (
+            <button
+              onClick={() => onReopen(report.id)}
+              className="rounded-md border border-border px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-muted-foreground hover:text-foreground"
+            >
+              Reopen
+            </button>
+          )}
+          <button
+            onClick={() => onDelete(report.id)}
+            className="rounded-md border border-destructive/60 px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-destructive hover:bg-destructive hover:text-destructive-foreground"
+          >
+            Delete
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
