@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "@tanstack/react-router";
 
 const links = [
   { href: "#features", label: "Features" },
@@ -23,7 +24,7 @@ export function SiteNav() {
       }`}
     >
       <nav className="container mx-auto flex items-center justify-between px-6">
-        <a href="#top" className="font-display text-xl font-bold tracking-widest">
+        <a href="/#top" className="font-display text-xl font-bold tracking-widest">
           <span className="text-glow text-primary">ONE</span>
           <span className="text-foreground">CITY</span>
           <span className="text-accent">RP</span>
@@ -39,6 +40,14 @@ export function SiteNav() {
               </a>
             </li>
           ))}
+          <li>
+            <Link
+              to="/staff"
+              className="text-sm font-medium uppercase tracking-wider text-muted-foreground transition-colors hover:text-accent"
+            >
+              Staff
+            </Link>
+          </li>
         </ul>
         <a
           href="https://discord.gg/YCghxeqjz"
