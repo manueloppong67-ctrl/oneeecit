@@ -72,14 +72,18 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
+      { title: "ONECITY RP" },
+      { name: "description", content: "Roleplay Hub is a game for roleplaying communities, offering features for staff management and player reporting." },
       { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { property: "og:title", content: "ONECITY RP" },
+      { property: "og:description", content: "Roleplay Hub is a game for roleplaying communities, offering features for staff management and player reporting." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: "ONECITY RP" },
+      { name: "twitter:description", content: "Roleplay Hub is a game for roleplaying communities, offering features for staff management and player reporting." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/c6f93924-e785-4b44-9d88-1cf4e989a315/id-preview-8f5b5505--2051fbe8-edad-438b-890b-0c5d59c2f709.lovable.app-1778173475523.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/c6f93924-e785-4b44-9d88-1cf4e989a315/id-preview-8f5b5505--2051fbe8-edad-438b-890b-0c5d59c2f709.lovable.app-1778173475523.png" },
     ],
     links: [
       {
