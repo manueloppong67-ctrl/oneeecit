@@ -42,6 +42,14 @@ export function SiteNav() {
           ))}
           <li>
             <Link
+              to="/report"
+              className="text-sm font-medium uppercase tracking-wider text-muted-foreground transition-colors hover:text-primary"
+            >
+              Report
+            </Link>
+          </li>
+          <li>
+            <Link
               to="/staff"
               className="text-sm font-medium uppercase tracking-wider text-muted-foreground transition-colors hover:text-accent"
             >
