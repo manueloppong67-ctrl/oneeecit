@@ -1,26 +1,41 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { SiteNav } from "@/components/SiteNav";
+import { Hero } from "@/components/Hero";
+import { Features } from "@/components/Features";
+import { About } from "@/components/About";
+import { Download } from "@/components/Download";
+import { Contact } from "@/components/Contact";
 
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: "One City RP — Multiplayer Open-World Roleplay" },
+      {
+        name: "description",
+        content:
+          "One City RP is the best multiplayer open-world roleplay game. Join 600+ players, download the APK and write your story in the city that never sleeps.",
+      },
+      { property: "og:title", content: "One City RP — Multiplayer Open-World Roleplay" },
+      {
+        property: "og:description",
+        content: "Join the best mobile multiplayer roleplay community. Download the APK and play now.",
+      },
+    ],
+  }),
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. For sites with multiple pages (About, Services, Contact, etc.),
-// create separate route files (about.tsx, services.tsx, contact.tsx) — don't put all pages in this file.
-function PlaceholderIndex() {
+function Index() {
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
+    <div className="relative min-h-screen overflow-x-hidden">
+      <SiteNav />
+      <main>
+        <Hero />
+        <Features />
+        <About />
+        <Download />
+        <Contact />
+      </main>
     </div>
   );
-}
-
-function Index() {
-  return <PlaceholderIndex />;
 }
