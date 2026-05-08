@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
+import { UserBadge } from "@/components/AuthGate";
 
 const links = [
   { href: "#features", label: "Features" },
+  { href: "#online", label: "Online" },
+  { href: "#events", label: "Events" },
   { href: "#about", label: "About" },
   { href: "#rules", label: "Rules" },
   { href: "#download", label: "Download" },
