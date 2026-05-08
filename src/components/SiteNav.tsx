@@ -61,14 +61,17 @@ export function SiteNav() {
             </Link>
           </li>
         </ul>
-        <a
-          href="https://discord.gg/YCghxeqjz"
-          target="_blank"
-          rel="noreferrer"
-          className="rounded-md border border-primary px-4 py-2 text-sm font-bold uppercase tracking-wider text-primary transition-all hover:bg-primary hover:text-primary-foreground hover:shadow-[var(--shadow-neon)]"
-        >
-          Join Now
-        </a>
+        <div className="flex items-center gap-3">
+          <UserBadge />
+          <a
+            href="https://discord.gg/YCghxeqjz"
+            target="_blank"
+            rel="noreferrer"
+            className="rounded-md border border-primary px-4 py-2 text-sm font-bold uppercase tracking-wider text-primary transition-all hover:bg-primary hover:text-primary-foreground hover:shadow-[var(--shadow-neon)]"
+          >
+            Join
+          </a>
+        </div>
       </nav>
     </header>
   );
