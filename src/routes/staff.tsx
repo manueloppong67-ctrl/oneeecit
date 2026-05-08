@@ -242,7 +242,7 @@ function ReportCard({
   const [reply, setReply] = useState(report.reply || "");
 
   return (
-    <div className="glass rounded-xl p-6">
+    <div id={`report-${report.id}`} className="glass scroll-mt-32 rounded-xl p-6">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
           <div className="flex items-center gap-3">
