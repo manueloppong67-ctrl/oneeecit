@@ -4,6 +4,7 @@ import { Link } from "@tanstack/react-router";
 const links = [
   { href: "#features", label: "Features" },
   { href: "#about", label: "About" },
+  { href: "#rules", label: "Rules" },
   { href: "#download", label: "Download" },
   { href: "#contact", label: "Contact" },
 ];
