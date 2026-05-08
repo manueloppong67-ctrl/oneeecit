@@ -44,6 +44,9 @@ export function addReport(r: Omit<Report, "id" | "createdAt" | "status">): Repor
   const all = getReports();
   all.unshift(report);
   saveReports(all);
+  if (typeof window !== "undefined") {
+    window.dispatchEvent(new CustomEvent("onecity:new-report", { detail: report }));
+  }
   return report;
 }
 
