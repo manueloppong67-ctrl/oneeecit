@@ -2,6 +2,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState, type FormEvent } from "react";
 import { SiteNav } from "@/components/SiteNav";
 import { getReports, updateReport, deleteReport, type Report } from "@/lib/reports";
+import { getEvents, addEvent, deleteEvent, type GameEvent } from "@/lib/events";
+import { getUsers, type User } from "@/lib/users";
 
 const STAFF_PASSWORD = "onecity2025";
 const STORAGE_KEY = "onecity_staff_auth";
