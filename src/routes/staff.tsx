@@ -2,6 +2,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState, type FormEvent } from "react";
 import { SiteNav } from "@/components/SiteNav";
 import { getReports, updateReport, deleteReport, type Report } from "@/lib/reports";
+import { getEvents, addEvent, deleteEvent, type GameEvent } from "@/lib/events";
+import { getUsers, type User } from "@/lib/users";
 
 const STAFF_PASSWORD = "onecity2025";
 const STORAGE_KEY = "onecity_staff_auth";
@@ -120,16 +122,26 @@ function StaffPage() {
 
 function AuthedDashboard({ onLogout }: { onLogout: () => void }) {
   const [reports, setReports] = useState<Report[]>([]);
-  const [tab, setTab] = useState<"reports" | "team">("reports");
+  const [events, setEvents] = useState<GameEvent[]>([]);
+  const [users, setUsers] = useState<User[]>([]);
+  const [tab, setTab] = useState<"reports" | "events" | "users" | "team">("reports");
 
-  const refresh = () => setReports(getReports());
+  const refresh = () => {
+    setReports(getReports());
+    setEvents(getEvents());
+    setUsers(getUsers());
+  };
   useEffect(() => {
     refresh();
     const onNew = () => refresh();
     window.addEventListener("onecity:new-report", onNew);
+    window.addEventListener("onecity:events-change", onNew);
+    window.addEventListener("onecity:auth-change", onNew);
     window.addEventListener("storage", onNew);
     return () => {
       window.removeEventListener("onecity:new-report", onNew);
+      window.removeEventListener("onecity:events-change", onNew);
+      window.removeEventListener("onecity:auth-change", onNew);
       window.removeEventListener("storage", onNew);
     };
   }, []);
@@ -144,34 +156,27 @@ function AuthedDashboard({ onLogout }: { onLogout: () => void }) {
     }
   }, [reports]);
 
-  const handleReply = (id: string, reply: string) => {
-    updateReport(id, { reply });
-    refresh();
-  };
-  const handleResolve = (id: string) => {
-    updateReport(id, { status: "resolved" });
-    refresh();
-  };
-  const handleReopen = (id: string) => {
-    updateReport(id, { status: "open" });
-    refresh();
-  };
+  const handleReply = (id: string, reply: string) => { updateReport(id, { reply }); refresh(); };
+  const handleResolve = (id: string) => { updateReport(id, { status: "resolved" }); refresh(); };
+  const handleReopen = (id: string) => { updateReport(id, { status: "open" }); refresh(); };
   const handleDelete = (id: string) => {
-    if (confirm("Delete this report?")) {
-      deleteReport(id);
-      refresh();
-    }
+    if (confirm("Delete this report?")) { deleteReport(id); refresh(); }
   };
 
   const open = reports.filter((r) => r.status === "open").length;
+
+  const tabs: { key: typeof tab; label: string }[] = [
+    { key: "reports", label: `Reports (${open})` },
+    { key: "events", label: `Events (${events.length})` },
+    { key: "users", label: `Users (${users.length})` },
+    { key: "team", label: "Admin Team" },
+  ];
 
   return (
     <div className="mx-auto max-w-5xl">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <span className="text-xs font-bold uppercase tracking-[0.3em] text-primary">
-            Authorized
-          </span>
+          <span className="text-xs font-bold uppercase tracking-[0.3em] text-primary">Authorized</span>
           <h1 className="mt-2 font-display text-4xl font-black uppercase md:text-5xl">
             Staff <span className="text-gradient-neon">Dashboard</span>
           </h1>
@@ -184,31 +189,28 @@ function AuthedDashboard({ onLogout }: { onLogout: () => void }) {
         </button>
       </div>
 
-      <div className="mt-8 flex gap-2 border-b border-border">
-        {(["reports", "team"] as const).map((t) => (
+      <div className="mt-8 flex flex-wrap gap-2 border-b border-border">
+        {tabs.map((t) => (
           <button
-            key={t}
-            onClick={() => setTab(t)}
+            key={t.key}
+            onClick={() => setTab(t.key)}
             className={`px-5 py-3 text-xs font-bold uppercase tracking-widest transition-all ${
-              tab === t
+              tab === t.key
                 ? "border-b-2 border-primary text-primary"
                 : "text-muted-foreground hover:text-foreground"
             }`}
           >
-            {t === "reports" ? `Reports (${open})` : "Admin Team"}
+            {t.label}
           </button>
         ))}
       </div>
 
-      {tab === "reports" ? (
+      {tab === "reports" && (
         <div className="mt-6 space-y-4">
           {reports.length === 0 ? (
             <div className="glass rounded-xl p-10 text-center text-sm text-muted-foreground">
               No reports yet. Players can submit one at{" "}
-              <Link to="/report" className="text-primary hover:underline">
-                /report
-              </Link>
-              .
+              <Link to="/report" className="text-primary hover:underline">/report</Link>.
             </div>
           ) : (
             reports.map((r) => (
@@ -223,7 +225,42 @@ function AuthedDashboard({ onLogout }: { onLogout: () => void }) {
             ))
           )}
         </div>
-      ) : (
+      )}
+
+      {tab === "events" && (
+        <EventsManager events={events} onChange={refresh} />
+      )}
+
+      {tab === "users" && (
+        <div className="mt-6 glass rounded-xl overflow-hidden">
+          {users.length === 0 ? (
+            <p className="p-10 text-center text-sm text-muted-foreground">No registered users yet.</p>
+          ) : (
+            <table className="w-full text-sm">
+              <thead className="bg-muted/30 text-xs uppercase tracking-widest text-muted-foreground">
+                <tr>
+                  <th className="px-4 py-3 text-left">Username</th>
+                  <th className="px-4 py-3 text-left">Email</th>
+                  <th className="px-4 py-3 text-left">Registered</th>
+                </tr>
+              </thead>
+              <tbody>
+                {users.map((u) => (
+                  <tr key={u.id} className="border-t border-border">
+                    <td className="px-4 py-3 font-bold">{u.username}</td>
+                    <td className="px-4 py-3 text-muted-foreground">{u.email}</td>
+                    <td className="px-4 py-3 text-xs text-muted-foreground">
+                      {new Date(u.createdAt).toLocaleString()}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </div>
+      )}
+
+      {tab === "team" && (
         <div className="mt-6 grid gap-4 md:grid-cols-2">
           {STAFF_TEAM.map((m) => (
             <div key={m.name} className="glass rounded-xl p-6">
@@ -241,6 +278,57 @@ function AuthedDashboard({ onLogout }: { onLogout: () => void }) {
           ))}
         </div>
       )}
+    </div>
+  );
+}
+
+function EventsManager({ events, onChange }: { events: GameEvent[]; onChange: () => void }) {
+  const [title, setTitle] = useState("");
+  const [startsAt, setStartsAt] = useState("");
+  const [description, setDescription] = useState("");
+  const [author, setAuthor] = useState("Staff");
+
+  const submit = (e: FormEvent) => {
+    e.preventDefault();
+    if (!title.trim() || !description.trim()) return;
+    addEvent({ title: title.trim(), startsAt: startsAt.trim() || "Ongoing", description: description.trim(), author: author.trim() || "Staff" });
+    setTitle(""); setStartsAt(""); setDescription("");
+    onChange();
+  };
+
+  return (
+    <div className="mt-6 space-y-6">
+      <form onSubmit={submit} className="glass rounded-xl p-6 space-y-3">
+        <h3 className="font-display text-lg font-bold uppercase">Post New Event</h3>
+        <input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Event title" className="w-full rounded-md border border-border bg-input/50 px-3 py-2 text-sm outline-none focus:border-primary" required />
+        <input value={startsAt} onChange={(e) => setStartsAt(e.target.value)} placeholder="When (e.g. Tonight 8 PM EST)" className="w-full rounded-md border border-border bg-input/50 px-3 py-2 text-sm outline-none focus:border-primary" />
+        <textarea value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Describe the event..." rows={3} className="w-full rounded-md border border-border bg-input/50 px-3 py-2 text-sm outline-none focus:border-primary" required />
+        <input value={author} onChange={(e) => setAuthor(e.target.value)} placeholder="Posted by" className="w-full rounded-md border border-border bg-input/50 px-3 py-2 text-sm outline-none focus:border-primary" />
+        <button type="submit" className="rounded-md bg-primary px-5 py-2 text-xs font-bold uppercase tracking-wider text-primary-foreground hover:scale-[1.02]">Publish Event</button>
+      </form>
+
+      <div className="space-y-3">
+        {events.length === 0 ? (
+          <p className="glass rounded-xl p-8 text-center text-sm text-muted-foreground">No events posted yet.</p>
+        ) : (
+          events.map((e) => (
+            <div key={e.id} className="glass rounded-xl p-5">
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <h4 className="font-display text-base font-bold uppercase">{e.title}</h4>
+                  <p className="text-xs uppercase tracking-widest text-accent">{e.startsAt}</p>
+                </div>
+                <button
+                  onClick={() => { if (confirm("Delete event?")) { deleteEvent(e.id); onChange(); } }}
+                  className="rounded-md border border-destructive/60 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-destructive hover:bg-destructive hover:text-destructive-foreground"
+                >Delete</button>
+              </div>
+              <p className="mt-2 whitespace-pre-wrap text-sm text-foreground/90">{e.description}</p>
+              <p className="mt-2 text-xs text-muted-foreground">By {e.author} · {new Date(e.createdAt).toLocaleString()}</p>
+            </div>
+          ))
+        )}
+      </div>
     </div>
   );
 }

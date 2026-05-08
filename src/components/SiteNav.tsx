@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
+import { UserBadge } from "@/components/AuthGate";
 
 const links = [
   { href: "#features", label: "Features" },
+  { href: "#online", label: "Online" },
+  { href: "#events", label: "Events" },
   { href: "#about", label: "About" },
   { href: "#rules", label: "Rules" },
   { href: "#download", label: "Download" },
@@ -58,14 +61,17 @@ export function SiteNav() {
             </Link>
           </li>
         </ul>
-        <a
-          href="https://discord.gg/YCghxeqjz"
-          target="_blank"
-          rel="noreferrer"
-          className="rounded-md border border-primary px-4 py-2 text-sm font-bold uppercase tracking-wider text-primary transition-all hover:bg-primary hover:text-primary-foreground hover:shadow-[var(--shadow-neon)]"
-        >
-          Join Now
-        </a>
+        <div className="flex items-center gap-3">
+          <UserBadge />
+          <a
+            href="https://discord.gg/YCghxeqjz"
+            target="_blank"
+            rel="noreferrer"
+            className="rounded-md border border-primary px-4 py-2 text-sm font-bold uppercase tracking-wider text-primary transition-all hover:bg-primary hover:text-primary-foreground hover:shadow-[var(--shadow-neon)]"
+          >
+            Join
+          </a>
+        </div>
       </nav>
     </header>
   );

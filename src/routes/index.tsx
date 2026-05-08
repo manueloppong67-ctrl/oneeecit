@@ -6,6 +6,9 @@ import { About } from "@/components/About";
 import { Download } from "@/components/Download";
 import { Contact } from "@/components/Contact";
 import { Rules } from "@/components/Rules";
+import { AuthGate } from "@/components/AuthGate";
+import { OnlineCount } from "@/components/OnlineCount";
+import { EventsList } from "@/components/EventsList";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -28,16 +31,20 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   return (
-    <div className="relative min-h-screen overflow-x-hidden">
-      <SiteNav />
-      <main>
-        <Hero />
-        <Features />
-        <About />
-        <Rules />
-        <Download />
-        <Contact />
-      </main>
-    </div>
+    <AuthGate>
+      <div className="relative min-h-screen overflow-x-hidden">
+        <SiteNav />
+        <main>
+          <Hero />
+          <OnlineCount />
+          <EventsList />
+          <Features />
+          <About />
+          <Rules />
+          <Download />
+          <Contact />
+        </main>
+      </div>
+    </AuthGate>
   );
 }
