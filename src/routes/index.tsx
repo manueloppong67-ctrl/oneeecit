@@ -34,6 +34,7 @@ function Index() {
         <Hero />
         <Features />
         <About />
+        <Rules />
         <Download />
         <Contact />
       </main>
