@@ -10,6 +10,16 @@ export type Report = {
 };
 
 const KEY = "onecity_reports";
+const SEEN_KEY = "onecity_reports_last_seen";
+
+export function getLastSeen(): number {
+  if (typeof window === "undefined") return 0;
+  return Number(localStorage.getItem(SEEN_KEY) || 0);
+}
+
+export function setLastSeen(ts: number) {
+  localStorage.setItem(SEEN_KEY, String(ts));
+}
 
 export function getReports(): Report[] {
   if (typeof window === "undefined") return [];
@@ -34,6 +44,9 @@ export function addReport(r: Omit<Report, "id" | "createdAt" | "status">): Repor
   const all = getReports();
   all.unshift(report);
   saveReports(all);
+  if (typeof window !== "undefined") {
+    window.dispatchEvent(new CustomEvent("onecity:new-report", { detail: report }));
+  }
   return report;
 }
 

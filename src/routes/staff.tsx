@@ -123,7 +123,26 @@ function AuthedDashboard({ onLogout }: { onLogout: () => void }) {
   const [tab, setTab] = useState<"reports" | "team">("reports");
 
   const refresh = () => setReports(getReports());
-  useEffect(refresh, []);
+  useEffect(() => {
+    refresh();
+    const onNew = () => refresh();
+    window.addEventListener("onecity:new-report", onNew);
+    window.addEventListener("storage", onNew);
+    return () => {
+      window.removeEventListener("onecity:new-report", onNew);
+      window.removeEventListener("storage", onNew);
+    };
+  }, []);
+
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash.startsWith("#report-")) {
+      setTab("reports");
+      setTimeout(() => {
+        document.getElementById(hash.slice(1))?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 100);
+    }
+  }, [reports]);
 
   const handleReply = (id: string, reply: string) => {
     updateReport(id, { reply });
@@ -242,7 +261,7 @@ function ReportCard({
   const [reply, setReply] = useState(report.reply || "");
 
   return (
-    <div className="glass rounded-xl p-6">
+    <div id={`report-${report.id}`} className="glass scroll-mt-32 rounded-xl p-6">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
           <div className="flex items-center gap-3">

@@ -9,6 +9,8 @@ import {
 } from "@tanstack/react-router";
 
 import appCss from "../styles.css?url";
+import { Toaster } from "@/components/ui/sonner";
+import { StaffNotifier } from "@/components/StaffNotifier";
 
 function NotFoundComponent() {
   return (
@@ -118,6 +120,8 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <Outlet />
+      <StaffNotifier />
+      <Toaster position="top-right" richColors />
     </QueryClientProvider>
   );
 }
