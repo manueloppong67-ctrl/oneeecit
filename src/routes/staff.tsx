@@ -123,7 +123,26 @@ function AuthedDashboard({ onLogout }: { onLogout: () => void }) {
   const [tab, setTab] = useState<"reports" | "team">("reports");
 
   const refresh = () => setReports(getReports());
-  useEffect(refresh, []);
+  useEffect(() => {
+    refresh();
+    const onNew = () => refresh();
+    window.addEventListener("onecity:new-report", onNew);
+    window.addEventListener("storage", onNew);
+    return () => {
+      window.removeEventListener("onecity:new-report", onNew);
+      window.removeEventListener("storage", onNew);
+    };
+  }, []);
+
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash.startsWith("#report-")) {
+      setTab("reports");
+      setTimeout(() => {
+        document.getElementById(hash.slice(1))?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 100);
+    }
+  }, [reports]);
 
   const handleReply = (id: string, reply: string) => {
     updateReport(id, { reply });
