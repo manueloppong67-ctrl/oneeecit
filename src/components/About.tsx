@@ -12,7 +12,7 @@ export function About() {
             <span className="text-gradient-neon">Open-World RP</span>
           </h2>
           <p className="mt-6 text-lg text-muted-foreground">
-            One City RP is a living, breathing multiplayer open-world roleplay
+            Modern State Rp is a living, breathing multiplayer open-world roleplay
             game where every player writes their own destiny. From the streets
             to the skyline — build your character, choose your path, and become
             a legend in the city that never sleeps.
@@ -30,7 +30,7 @@ export function About() {
                 1
               </div>
               <div className="mt-4 font-display text-2xl font-bold uppercase tracking-[0.4em] text-foreground">
-                One City
+                Modern State
               </div>
               <div className="mt-2 text-sm uppercase tracking-widest text-muted-foreground">
                 Endless Possibilities

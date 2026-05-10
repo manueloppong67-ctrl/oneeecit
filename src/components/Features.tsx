@@ -13,7 +13,7 @@ export function Features() {
       <div className="container mx-auto px-6">
         <div className="mx-auto max-w-2xl text-center">
           <span className="text-xs font-bold uppercase tracking-[0.3em] text-primary">
-            Why One City
+            Why Modern State
           </span>
           <h2 className="mt-4 font-display text-4xl font-black uppercase md:text-6xl">
             Built for the <span className="text-gradient-neon">streets</span>

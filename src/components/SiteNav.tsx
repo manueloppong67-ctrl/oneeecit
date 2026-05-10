@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { UserBadge } from "@/components/AuthGate";
 
 const links = [
   { href: "#features", label: "Features" },
@@ -29,8 +28,8 @@ export function SiteNav() {
     >
       <nav className="container mx-auto flex items-center justify-between px-6">
         <a href="/#top" className="font-display text-xl font-bold tracking-widest">
-          <span className="text-glow text-primary">ONE</span>
-          <span className="text-foreground">CITY</span>
+          <span className="text-glow text-primary">MODERN</span>
+          <span className="text-foreground">STATE</span>
           <span className="text-accent">RP</span>
         </a>
         <ul className="hidden items-center gap-8 md:flex">
@@ -62,7 +61,6 @@ export function SiteNav() {
           </li>
         </ul>
         <div className="flex items-center gap-3">
-          <UserBadge />
           <a
             href="https://discord.gg/YCghxeqjz"
             target="_blank"

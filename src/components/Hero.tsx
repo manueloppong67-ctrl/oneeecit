@@ -13,15 +13,41 @@ export function Hero() {
             Now Live · v1.0
           </span>
           <h1 className="mt-8 font-display text-5xl font-black uppercase leading-none tracking-tight md:text-7xl">
-            <span className="text-gradient-neon text-glow">ONE</span>{" "}
-            <span className="text-foreground">CITY</span>
+            <span className="text-gradient-neon text-glow">MODERN</span>{" "}
+            <span className="text-foreground">STATE</span>
             <br />
             <span className="text-foreground/90">RP</span>
           </h1>
           <p className="mx-auto mt-8 max-w-xl text-lg text-muted-foreground md:mx-0 md:text-xl">
-            Welcome to One City RP — the best multiplayer roleplaying game. 🎮
+            Welcome to Modern State Rp — the best multiplayer roleplaying game. 🎮
             If you want to chill with friends, join our project now!
           </p>
+          <div className="mt-6 flex flex-wrap items-center justify-center gap-3 md:justify-start">
+            <a
+              href="https://www.tiktok.com/@modern.state.role?_r=1&_t=ZS-96F4Mpe5Uo6"
+              target="_blank"
+              rel="noreferrer"
+              className="rounded-full border border-border px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-muted-foreground transition-colors hover:border-primary hover:text-primary"
+            >
+              TikTok
+            </a>
+            <a
+              href="https://t.me/Offcialvelocityxdigital"
+              target="_blank"
+              rel="noreferrer"
+              className="rounded-full border border-border px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-muted-foreground transition-colors hover:border-primary hover:text-primary"
+            >
+              Telegram
+            </a>
+            <a
+              href="https://www.youtube.com/@ModernStaterp"
+              target="_blank"
+              rel="noreferrer"
+              className="rounded-full border border-border px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-muted-foreground transition-colors hover:border-accent hover:text-accent"
+            >
+              YouTube
+            </a>
+          </div>
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4 md:justify-start">
             <a
               href="https://www.mediafire.com/file/v5fjyonwzuo5231/ONE_CITY_Roleplay.AXIOm.version_1.apk/file"
@@ -64,7 +90,7 @@ export function Hero() {
           <div className="relative aspect-square w-72 overflow-hidden rounded-3xl border-2 border-primary/40 shadow-[var(--shadow-neon)] md:w-96">
             <img
               src={logo}
-              alt="One City RP logo"
+              alt="Modern State Rp logo"
               className="h-full w-full object-cover"
               width={600}
               height={600}

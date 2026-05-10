@@ -6,20 +6,19 @@ import { About } from "@/components/About";
 import { Download } from "@/components/Download";
 import { Contact } from "@/components/Contact";
 import { Rules } from "@/components/Rules";
-import { AuthGate } from "@/components/AuthGate";
 import { OnlineCount } from "@/components/OnlineCount";
 import { EventsList } from "@/components/EventsList";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "One City RP — Multiplayer Open-World Roleplay" },
+      { title: "Modern State Rp — Multiplayer Open-World Roleplay" },
       {
         name: "description",
         content:
-          "One City RP is the best multiplayer open-world roleplay game. Join 600+ players, download the APK and write your story in the city that never sleeps.",
+          "Modern State Rp is the best multiplayer open-world roleplay game. Join the community, download the APK and write your story.",
       },
-      { property: "og:title", content: "One City RP — Multiplayer Open-World Roleplay" },
+      { property: "og:title", content: "Modern State Rp — Multiplayer Open-World Roleplay" },
       {
         property: "og:description",
         content: "Join the best mobile multiplayer roleplay community. Download the APK and play now.",
@@ -31,20 +30,18 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   return (
-    <AuthGate>
-      <div className="relative min-h-screen overflow-x-hidden">
-        <SiteNav />
-        <main>
-          <Hero />
-          <OnlineCount />
-          <EventsList />
-          <Features />
-          <About />
-          <Rules />
-          <Download />
-          <Contact />
-        </main>
-      </div>
-    </AuthGate>
+    <div className="relative min-h-screen overflow-x-hidden">
+      <SiteNav />
+      <main>
+        <Hero />
+        <OnlineCount />
+        <EventsList />
+        <Features />
+        <About />
+        <Rules />
+        <Download />
+        <Contact />
+      </main>
+    </div>
   );
 }

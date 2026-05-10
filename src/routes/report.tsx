@@ -6,8 +6,8 @@ import { addReport } from "@/lib/reports";
 export const Route = createFileRoute("/report")({
   head: () => ({
     meta: [
-      { title: "Submit a Report — One City RP" },
-      { name: "description", content: "Report a player or issue to One City RP staff." },
+      { title: "Submit a Report — Modern State Rp" },
+      { name: "description", content: "Report a player or issue to Modern State Rp staff." },
     ],
   }),
   component: ReportPage,
