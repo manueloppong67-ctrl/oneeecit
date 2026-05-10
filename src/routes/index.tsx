@@ -35,6 +35,7 @@ function Index() {
       <SiteNav />
       <main>
         <Hero />
+        <TeamSection />
         <OnlineCount />
         <EventsList />
         <Features />
