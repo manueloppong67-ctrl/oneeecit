@@ -26,15 +26,17 @@ export function SiteNav() {
         scrolled ? "glass py-3" : "py-5"
       }`}
     >
-      <nav className="container mx-auto flex items-center justify-between px-6">
-        <a href="/#top" className="font-display text-xl font-bold tracking-widest">
+      <nav className="container mx-auto flex items-center gap-4 px-4">
+        <a href="/#top" className="shrink-0 font-display text-lg font-bold tracking-widest md:text-xl">
           <span className="text-glow text-primary">MODERN</span>
           <span className="text-foreground">STATE</span>
           <span className="text-accent">RP</span>
         </a>
-        <ul className="hidden items-center gap-8 md:flex">
+        <ul
+          className="flex flex-1 items-center gap-6 overflow-x-auto whitespace-nowrap scroll-smooth [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+        >
           {links.map((l) => (
-            <li key={l.href}>
+            <li key={l.href} className="shrink-0">
               <a
                 href={l.href}
                 className="text-sm font-medium uppercase tracking-wider text-muted-foreground transition-colors hover:text-primary"
@@ -43,7 +45,7 @@ export function SiteNav() {
               </a>
             </li>
           ))}
-          <li>
+          <li className="shrink-0">
             <Link
               to="/report"
               className="text-sm font-medium uppercase tracking-wider text-muted-foreground transition-colors hover:text-primary"
@@ -51,7 +53,7 @@ export function SiteNav() {
               Report
             </Link>
           </li>
-          <li>
+          <li className="shrink-0">
             <Link
               to="/staff"
               className="text-sm font-medium uppercase tracking-wider text-muted-foreground transition-colors hover:text-accent"
@@ -60,12 +62,12 @@ export function SiteNav() {
             </Link>
           </li>
         </ul>
-        <div className="flex items-center gap-3">
+        <div className="flex shrink-0 items-center gap-3">
           <a
             href="https://discord.gg/YCghxeqjz"
             target="_blank"
             rel="noreferrer"
-            className="rounded-md border border-primary px-4 py-2 text-sm font-bold uppercase tracking-wider text-primary transition-all hover:bg-primary hover:text-primary-foreground hover:shadow-[var(--shadow-neon)]"
+            className="rounded-md border border-primary px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-primary transition-all hover:bg-primary hover:text-primary-foreground hover:shadow-[var(--shadow-neon)] md:px-4 md:py-2 md:text-sm"
           >
             Join
           </a>
