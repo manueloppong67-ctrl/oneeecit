@@ -5,7 +5,7 @@ import { getReports, updateReport, deleteReport, type Report } from "@/lib/repor
 import { getEvents, addEvent, deleteEvent, type GameEvent } from "@/lib/events";
 import { getUsers, type User } from "@/lib/users";
 
-const STAFF_PASSWORD = "onecity2025";
+const STAFF_PASSWORD = "mordernrp2026";
 const STORAGE_KEY = "onecity_staff_auth";
 
 const STAFF_TEAM = [
