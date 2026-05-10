@@ -8,6 +8,7 @@ import { Contact } from "@/components/Contact";
 import { Rules } from "@/components/Rules";
 import { OnlineCount } from "@/components/OnlineCount";
 import { EventsList } from "@/components/EventsList";
+import { TeamSection } from "@/components/TeamSection";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -34,6 +35,7 @@ function Index() {
       <SiteNav />
       <main>
         <Hero />
+        <TeamSection />
         <OnlineCount />
         <EventsList />
         <Features />

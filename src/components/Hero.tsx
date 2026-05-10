@@ -1,4 +1,4 @@
-import logo from "@/assets/onecity-logo.jpg";
+import logo from "@/assets/modern-state-logo.jpg";
 
 export function Hero() {
   return (
@@ -49,14 +49,9 @@ export function Hero() {
             </a>
           </div>
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4 md:justify-start">
-            <a
-              href="https://www.mediafire.com/file/v5fjyonwzuo5231/ONE_CITY_Roleplay.AXIOm.version_1.apk/file"
-              target="_blank"
-              rel="noreferrer"
-              className="rounded-md bg-primary px-8 py-3 font-bold uppercase tracking-wider text-primary-foreground shadow-[var(--shadow-neon)] transition-transform hover:scale-105"
-            >
-              Download APK
-            </a>
+            <span className="rounded-md bg-muted px-8 py-3 font-bold uppercase tracking-wider text-muted-foreground border border-border">
+              Game Still In Development
+            </span>
             <a
               href="https://discord.gg/YCghxeqjz"
               target="_blank"
