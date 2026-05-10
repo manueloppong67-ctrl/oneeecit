@@ -19,13 +19,13 @@ export function EventsList() {
     <section id="events" className="relative z-10 container mx-auto px-6 py-20">
       <div className="text-center">
         <span className="text-xs font-bold uppercase tracking-[0.3em] text-accent">
-          Members Only
+          Community
         </span>
         <h2 className="mt-2 font-display text-4xl font-black uppercase md:text-5xl">
           Ongoing <span className="text-gradient-neon">Events</span>
         </h2>
         <p className="mx-auto mt-3 max-w-xl text-sm text-muted-foreground">
-          Live events posted by the One City RP staff team.
+          Live events posted by the Modern State Rp staff team.
         </p>
       </div>
 

@@ -1,3 +1,9 @@
+const SOCIALS = [
+  { label: "TikTok", href: "https://www.tiktok.com/@modern.state.role?_r=1&_t=ZS-96F4Mpe5Uo6" },
+  { label: "Telegram", href: "https://t.me/Offcialvelocityxdigital" },
+  { label: "YouTube", href: "https://www.youtube.com/@ModernStaterp" },
+];
+
 export function Contact() {
   return (
     <section id="contact" className="relative py-32">
@@ -10,7 +16,7 @@ export function Contact() {
             Get in <span className="text-gradient-neon">Touch</span>
           </h2>
           <p className="mt-4 text-muted-foreground">
-            Questions, partnerships or support — drop us a line.
+            Questions, partnerships or support — drop us a line, or follow us on socials.
           </p>
           <a
             href="mailto:roleplaynexus8@gmail.com"
@@ -18,16 +24,30 @@ export function Contact() {
           >
             roleplaynexus8@gmail.com
           </a>
+
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+            {SOCIALS.map((s) => (
+              <a
+                key={s.label}
+                href={s.href}
+                target="_blank"
+                rel="noreferrer"
+                className="rounded-full border border-border px-5 py-2 text-xs font-bold uppercase tracking-widest text-muted-foreground transition-colors hover:border-accent hover:text-accent"
+              >
+                {s.label}
+              </a>
+            ))}
+          </div>
         </div>
       </div>
 
       <footer className="container mx-auto mt-24 border-t border-border/40 px-6 pt-8 pb-12 text-center">
         <div className="font-display text-lg font-bold tracking-widest">
-          <span className="text-primary">ONE</span>CITY
+          <span className="text-primary">MODERN</span>STATE
           <span className="text-accent">RP</span>
         </div>
         <p className="mt-2 text-xs uppercase tracking-widest text-muted-foreground">
-          © {new Date().getFullYear()} One City RP · All rights reserved
+          © {new Date().getFullYear()} Modern State Rp · All rights reserved
         </p>
       </footer>
     </section>

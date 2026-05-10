@@ -13,7 +13,7 @@ const STAFF_TEAM = [
     name: "In God",
     role: "Founder",
     initials: "IG",
-    bio: "Creator and lead of One City RP. Sets the vision and oversees the entire project.",
+    bio: "Creator and lead of Modern State Rp. Sets the vision and oversees the entire project.",
   },
   {
     name: "Mr Breeder",
@@ -26,8 +26,8 @@ const STAFF_TEAM = [
 export const Route = createFileRoute("/staff")({
   head: () => ({
     meta: [
-      { title: "Staff Panel — One City RP" },
-      { name: "description", content: "Restricted staff access for One City RP." },
+      { title: "Staff Panel — Modern State Rp" },
+      { name: "description", content: "Restricted staff access for Modern State Rp." },
       { name: "robots", content: "noindex, nofollow" },
     ],
   }),

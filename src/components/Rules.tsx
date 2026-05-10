@@ -50,7 +50,7 @@ export function Rules() {
             Game <span className="text-gradient-neon">Rules</span>
           </h2>
           <p className="mt-3 text-sm text-muted-foreground">
-            Click below to read the official One City RP rules.
+            Click below to read the official Modern State Rp rules.
           </p>
         </div>
 
