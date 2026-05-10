@@ -1,4 +1,4 @@
-import logo from "@/assets/onecity-logo.jpg";
+import logo from "@/assets/modern-state-logo.jpg";
 
 export function Hero() {
   return (
